@@ -205,7 +205,7 @@ class static_factory
 
     if(it == get_registry<base_type, Args...>().end())
     {
-      throw std::runtime_error("Registery not found");
+      throw std::runtime_error("Registry not found");
     }
 
     return it->second(std::forward<Args>(args)...);
@@ -227,7 +227,7 @@ class static_factory
 
     if(it == get_registry<base_type, Args...>().end())
     {
-      throw std::runtime_error("Registery not found");
+      throw std::runtime_error("Registry not found");
     }
 
     return it->second(std::forward<Args>(args)...);
@@ -291,7 +291,7 @@ class static_factory
 
     if(it == get_registry<base_type*, Args...>().end())
     {
-      return nullptr;
+      throw std::runtime_error("Registry not found");
     }
 
     return it->second(std::forward<Args>(args)...);
@@ -312,7 +312,7 @@ class static_factory
 
     if(it == get_registry<base_type*, Args...>().end())
     {
-      return nullptr;
+      throw std::runtime_error("Registry not found");
     }
 
     return static_cast<ConcreteType*>(it->second(std::forward<Args>(args)...));
@@ -373,7 +373,7 @@ class static_factory
 
     if(it == get_registry<std::shared_ptr<base_type>, Args...>().end())
     {
-      return nullptr;
+      throw std::runtime_error("Registry not found");
     }
 
     return it->second(std::forward<Args>(args)...);
@@ -394,7 +394,7 @@ class static_factory
 
     if(it == get_registry<std::shared_ptr<base_type>, Args...>().end())
     {
-      return nullptr;
+      throw std::runtime_error("Registry not found");
     }
 
     return std::static_pointer_cast<ConcreteType>(it->second(std::forward<Args>(args)...));
@@ -456,7 +456,7 @@ class static_factory
 
     if(it == get_registry<std::unique_ptr<base_type>, Args...>().end())
     {
-      return nullptr;
+      throw std::runtime_error("Registry not found");
     }
 
     return it->second(std::forward<Args>(args)...);
@@ -477,7 +477,7 @@ class static_factory
 
     if(it == get_registry<std::unique_ptr<base_type>, Args...>().end())
     {
-      return nullptr;
+      throw std::runtime_error("Registry not found");
     }
 
     auto obj = it->second(std::forward<Args>(args)...);

@@ -45,7 +45,7 @@ int main()
     Pet* dog = pet_factory::make_ptr("Dog");
     Pet* cat = pet_factory::make_ptr("Cat");
 
-    // try to loop through all the registered keys and return the first one that is not nullptr
+    // loop through all registered keys in the order of registration and try to create an object
     Pet* pet = pet_factory::try_make_ptr();
     assert(pet->speak() == "Woof!");
 
@@ -59,7 +59,7 @@ int main()
     std::unique_ptr<Pet> dog = pet_factory::make_unique("Dog");
     std::unique_ptr<Pet> cat = pet_factory::make_unique("Cat");
 
-    // try to loop through all the registered keys and return the first one that is not nullptr
+    // loop through all registered keys in the order of registration and try to create an object 
     std::unique_ptr<Pet> pet = pet_factory::try_make_unique();
     assert(pet->speak() == "Woof!");
   }
@@ -69,7 +69,8 @@ int main()
     std::shared_ptr<Pet> dog = pet_factory::make_shared("Dog");
     std::shared_ptr<Pet> cat = pet_factory::make_shared("Cat");
 
-    // try to loop through all the registered keys and return the first one that is not nullptr
+    
+    // loop through all registered keys in the ordern of registration and try to create an object
     std::shared_ptr<Pet> pet = pet_factory::try_make_shared();
     assert(pet->speak() == "Woof!");
   }
@@ -77,7 +78,7 @@ int main()
   return 0;
 }
 ```
-#### Component types
+#### Convertible types
 
 This is where the base_type is constructible from registered types
 
@@ -150,6 +151,6 @@ int main()
 
 Passing arguments to the `make` methods is explicit. In the same sense of explicit constructors: No implicit conversions are made.
 
-For example, calling `Pet dog = pet_factory::make("Dog", "Rex");` in the previous example will throw because no factory is registered with the argument `const char*`. And calling "make_ptr" will return a nullptr instead of throwing.
+For example, calling `Pet dog = pet_factory::make("Dog", "Rex");` in the previous example will throw because no factory is registered with the argument `const char*`. 
 
-A one could argue this is a feature and not a limitation.
+This is solvable, but one could argue that it is a feature and not a limitation.
