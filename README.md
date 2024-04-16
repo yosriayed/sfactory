@@ -82,11 +82,14 @@ int main()
 This is where the base_type is constructible from registered types
 
 ```cpp
+
 #include "static_factory.hpp"
 #include <variant>
 
 struct Dog
 {
+  Dog(const std::string& n = "") :name{n}{}
+
   std::string name;
   void eat()
   {
@@ -98,6 +101,7 @@ struct Dog
 
 struct Cat
 {
+  Cat(const std::string& n = "") :name{n}{}
   std::string name;
   void eat()
   {
@@ -115,8 +119,8 @@ int main()
   using pet_factory = static_factory<Pet, std::string>;
 
   // Register types
-  pet_factory::register_type<Dog>("Dog");
-  pet_factory::register_type<Cat>("Cat");
+  pet_factory::register_type<Dog, std::string>("Dog");
+  pet_factory::register_type<Cat, std::string>("Cat");
 
   // register a custom function
 
@@ -128,10 +132,10 @@ int main()
       return my_cat;
     });
 
-  Pet dog = pet_factory::make("Dog");
+  Pet dog = pet_factory::make("Dog", std::string("Rex"));
   assert(std::holds_alternative<Dog>(dog));
 
-  Pet cat = pet_factory::make("Cat");
+  Pet cat = pet_factory::make("Cat", std::string("Whiskers"));
   assert(std::holds_alternative<Cat>(cat));
   Pet anber = pet_factory::make("MyCat");
   assert(std::holds_alternative<Cat>(anber));
@@ -139,4 +143,13 @@ int main()
 
   return 0;
 }
+
 ```
+
+## Limitations
+
+Passing arguments to the `make` methods is explicit. In the same sense of explicit constructors: No implicit conversions are made.
+
+For example, calling `Pet dog = pet_factory::make("Dog", "Rex");` in the previous example will throw because no factory is registered with the argument `const char*`. And calling "make_ptr" will return a nullptr instead of throwing.
+
+A one could argue this is a feature and not a limitation.
